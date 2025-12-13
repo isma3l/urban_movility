@@ -1,7 +1,7 @@
 import '../../global.css';
 import { ThemeProvider } from '@react-navigation/native';
 import FlashMessage from 'react-native-flash-message';
-import { Stack } from 'expo-router';
+import { Slot } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
@@ -24,9 +24,7 @@ SplashScreen.setOptions({
 export default function RootLayout() {
   return (
     <Providers>
-      <Stack>
-        <Stack.Screen name="index" options={{ title: 'Home' }} />
-      </Stack>
+      <Slot />
     </Providers>
   );
 }
