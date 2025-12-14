@@ -1,7 +1,7 @@
 import '../../global.css';
 import { ThemeProvider } from '@react-navigation/native';
 import FlashMessage from 'react-native-flash-message';
-import { Slot } from 'expo-router';
+import { Slot, Stack } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
@@ -11,23 +11,32 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useThemeConfig } from '@/core/hooks/useThemeConfig';
 import { APIProvider } from '@/core/api';
 import { loadSelectedTheme } from '@/core';
+import '@/core/i18n';
 
 loadSelectedTheme();
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
-SplashScreen.setOptions({
-  duration: 500,
-  fade: true,
-});
 
 export default function RootLayout() {
   return (
     <Providers>
-      <Slot />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="(app)" />
+        <Stack.Screen name="(auth)" />
+      </Stack>
     </Providers>
   );
 }
+/*
+<Stack.Screen
+        name="(flows)"
+        options={{ presentation: "modal" }}
+      />
+*/
 
 function Providers({ children }: { children: React.ReactNode }) {
   const theme = useThemeConfig();
@@ -51,3 +60,28 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+/*
+
+app/
+├── _layout.tsx           ← RootLayout (Stack global)
+├── index.tsx             ← Redirect inicial (opcional)
+├── (auth)/
+│   ├── _layout.tsx
+│   ├── login.tsx
+│   └── register.tsx
+├── (app)/
+│   ├── _layout.tsx       ← AppLayout (guard + providers)
+│   ├── (tabs)/
+│   │   ├── _layout.tsx   ← TabsLayout (Tabs)
+│   │   ├── index.tsx     ← Home / default tab
+│   │   ├── trips.tsx
+│   │   └── profile.tsx
+│   └── trip/
+│       └── [id].tsx
+└── (flows)/
+    ├── search-destination.tsx
+    └── payment.tsx
+
+
+*/
