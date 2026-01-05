@@ -1,7 +1,7 @@
 import '../../global.css';
 import { ThemeProvider } from '@react-navigation/native';
 import FlashMessage from 'react-native-flash-message';
-import { Slot, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';

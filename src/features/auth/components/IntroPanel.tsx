@@ -1,11 +1,11 @@
-import type { Step } from './Onboarding';
+import type { Step } from './IntroSlider';
 import { View, Text, WINDOW_WIDTH } from '@/core';
 
 type OnboardingStepProps = {
   step: Step;
 };
 
-export const OnboardingStep = ({ step }: OnboardingStepProps) => {
+export const IntroPanel = ({ step }: OnboardingStepProps) => {
   const StepImage = step.image;
   return (
     <View className="items-center justify-center p-8 py-16" style={{ width: WINDOW_WIDTH }}>

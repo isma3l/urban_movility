@@ -3,7 +3,7 @@ import { FlatList } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 import { cn, View } from '@/core';
-import { OnboardingStep } from './OnboardingStep';
+import { IntroPanel } from './IntroPanel';
 import Step1Image from '@/features/auth/assets/onboarding1.svg';
 import Step2Image from '@/features/auth/assets/onboarding2.svg';
 
@@ -30,7 +30,7 @@ const steps: Step[] = [
   },
 ];
 
-export const Onboarding = () => {
+export const IntroSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 50 }).current;
 
@@ -43,7 +43,7 @@ export const Onboarding = () => {
   }, []);
 
   const renderItem = useCallback(({ item }: { item: Step }) => {
-    return <OnboardingStep step={item} />;
+    return <IntroPanel step={item} />;
   }, []);
 
   return (

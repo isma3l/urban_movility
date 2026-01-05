@@ -1,4 +1,4 @@
-import { Redirect, SplashScreen, Stack } from 'expo-router';
+import { Redirect, Slot, SplashScreen, Stack } from 'expo-router';
 import { useCallback, useEffect } from 'react';
 
 const value = true;
@@ -12,11 +12,7 @@ export default function AppLayout() {
     hide();
   }, [hide]);
 
-  if (value) return <Redirect href="/onboarding" />;
+  //if (value) return <Redirect href="/onboarding" />;
 
-  return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-    </Stack>
-  );
+  return <Slot />;
 }
