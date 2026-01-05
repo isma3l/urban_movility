@@ -1,4 +1,5 @@
 export * from './hooks/use-selected-theme';
+export * from './hooks/useThemeConfig';
 export { default as colors } from './constants/colors';
 export * from './constants/env';
 export * from './utils';

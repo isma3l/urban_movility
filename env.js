@@ -9,8 +9,8 @@ require('dotenv').config({
   path: envPath,
 });
 
-const BUNDLE_ID = 'com.car-fast';
-const PACKAGE = 'com.car-fast';
+const BUNDLE_ID = 'com.car.fast';
+const PACKAGE = 'com.car.fast';
 const NAME = 'car-fast';
 const EXPO_ACCOUNT_OWNER = 'expo-owner';
 const EAS_PROJECT_ID = 'b1c8f4d3-5f4e-4d3a-9f4e-2b4d3a9f4e2b';

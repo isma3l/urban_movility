@@ -34,6 +34,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#FFFFFF',
     },
+    edgeToEdgeEnabled: true,
     package: Env.PACKAGE,
   },
   web: {
@@ -56,7 +57,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     'expo-router',
-    'react-native-edge-to-edge',
+    'expo-localization',
+    [
+        "react-native-edge-to-edge",
+        {
+          "android": {
+            "parentTheme": "Default",
+            "enforceNavigationBarContrast": false
+          }
+        }
+      ]
   ],
   extra: {
     ...clientEnv,

@@ -17,7 +17,7 @@ module.exports = {
     notification: '#FF3B30', // react navigation notification color
   },
   dark: {
-    primary: '#AECBFA',
+    primary: '#E3EEFF',
     secondary: '#4DC3F2',
     background: '#121212',
     surface: '#1E1E1E',
