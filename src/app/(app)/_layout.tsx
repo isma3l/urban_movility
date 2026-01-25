@@ -12,7 +12,7 @@ export default function AppLayout() {
     hide();
   }, [hide]);
 
-  //if (value) return <Redirect href="/onboarding" />;
+  if (value) return <Redirect href="/login" />;
 
   return <Slot />;
 }

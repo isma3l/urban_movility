@@ -8,6 +8,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { cn } from '../utils';
+import { SvgProps } from 'react-native-svg';
 
 type Mode = 'text' | 'outline' | 'contained';
 
@@ -18,26 +19,32 @@ interface ButtonProps extends PressableProps {
   textStyle?: StyleProp<TextStyle>;
   mode?: Mode;
   disabled?: boolean;
+  LeftIcon?: React.FC<SvgProps>; 
 }
 
+// Uso un children en Pressable porque NativeWind no soporta un style con callback
 export const Button = ({
   className,
   buttonStyle,
   textStyle,
+  LeftIcon,
   mode = 'contained',
   children,
   ...props
 }: ButtonProps) => {
   return (
-    <Pressable {...props}>
+    <Pressable {...props}> 
       {({ pressed }) => (
         <View
           className={cn(
-            'rounded-xl px-6 py-3',
+            'flex-row justify-center gap-8 rounded-xl px-6 py-3',
             modes[mode].background,
             { 'opacity-70': pressed },
             className
-          )}>
+          )}
+          style={buttonStyle}
+          >
+          {LeftIcon && <LeftIcon width={24} height={24} />}
           <Text className={cn('text-center text-lg', modes[mode].text)} style={textStyle}>
             {children}
           </Text>

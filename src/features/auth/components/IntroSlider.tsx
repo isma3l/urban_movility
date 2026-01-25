@@ -1,32 +1,29 @@
 import { useCallback, useRef, useState } from 'react';
-import { FlatList } from 'react-native';
-import { SvgProps } from 'react-native-svg';
+import { FlatList, ImageSourcePropType } from 'react-native';
 
 import { cn, View } from '@/core';
 import { IntroPanel } from './IntroPanel';
-import Step1Image from '@/features/auth/assets/onboarding1.svg';
-import Step2Image from '@/features/auth/assets/onboarding2.svg';
 
 export type Step = {
   id: string;
   title: string;
   description: string;
-  image: React.FC<SvgProps>;
+  imageId: ImageSourcePropType;
 };
 
 const steps: Step[] = [
-  {
+  { 
     id: 'step1',
     title: 'Tu aplicación para ofertas justas',
     description: 'Aquí puedes elegir conductores, pasajeros y mucho más',
-    image: Step1Image,
+    imageId: require('../assets/confidence.png'),
   },
   {
     id: 'step2',
     title: 'Tu seguridad es nuestra prioridad',
     description:
       'Solo proveedores de servicios verificados. Elige el tuyo por puntuación y reseñas',
-    image: Step2Image,
+    imageId: require('../assets/security.png'),
   },
 ];
 

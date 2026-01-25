@@ -1,6 +1,6 @@
 module.exports = {
   light: {
-    primary: '#0A2540',
+    primary: '#0066CC',
     secondary: '#00A8E8',
     background: '#F8F9FA',
     surface: '#FFFFFF',
