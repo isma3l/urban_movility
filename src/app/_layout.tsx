@@ -12,6 +12,8 @@ import { useThemeConfig } from '@/core/hooks/useThemeConfig';
 import { APIProvider } from '@/core/api';
 import { loadSelectedTheme } from '@/core';
 import '@/core/i18n';
+import { configureGoogle } from '@/core';
+import { useEffect } from 'react';
 
 loadSelectedTheme();
 
@@ -19,6 +21,10 @@ loadSelectedTheme();
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  useEffect(() => {
+    configureGoogle();
+  }, []);
+
   return (
     <Providers>
       <Stack

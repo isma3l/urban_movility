@@ -7,7 +7,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   owner: Env.EXPO_ACCOUNT_OWNER,
   scheme: Env.SCHEME,
   name: Env.NAME,
-  slug: Env.NAME,
+  slug: Env.SLUG,
   version: Env.VERSION,
   orientation: 'portrait',
   icon: './assets/icon.png',
@@ -28,6 +28,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: true,
     bundleIdentifier: Env.BUNDLE_ID,
+    googleServicesFile: `./firebase/${Env.APP_ENV}/GoogleService-Info.plist`
   },
   android: {
     adaptiveIcon: {
@@ -36,6 +37,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     edgeToEdgeEnabled: true,
     package: Env.PACKAGE,
+    googleServicesFile: `./firebase/${Env.APP_ENV}/google-services.json`
   },
   web: {
     favicon: './assets/favicon.png',
@@ -58,6 +60,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ],
     'expo-router',
     'expo-localization',
+    '@react-native-firebase/app',
+    '@react-native-google-signin/google-signin',
+    [
+      'expo-build-properties',
+      {
+        ios: {
+          useFrameworks: 'static',
+          useModularHeaders: true
+        }
+      }
+    ],
     [
         "react-native-edge-to-edge",
         {
@@ -69,7 +82,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       ]
   ],
   extra: {
-    ...clientEnv,
+    ...Env,
     eas: {
       projectId: Env.EAS_PROJECT_ID,
     },
