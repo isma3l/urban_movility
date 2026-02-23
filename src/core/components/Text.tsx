@@ -1,15 +1,32 @@
-import { Text as FCText, TextProps } from 'react-native';
-import { cn } from '../utils';
+import { Text as FCText, StyleProp, TextProps, TextStyle } from 'react-native';
+import { useAppTheme } from '../hooks/useThemeConfig';
+import { useMemo } from 'react';
+
+type TextVariant = 'title' | 'body' | 'secondary' | 'muted' | 'button' | 'buttonSecondary' | 'error' | 'warning' | 'success';
 
 interface Props extends TextProps {
   children?: React.ReactNode;
-  className?: string;
-  tx?: string;
+  style?: StyleProp<TextStyle>;
+  variant?: TextVariant;
 }
 
-export const Text = ({ children, className, tx, ...props }: Props) => {
+export const Text = ({ children, style, variant = 'body' ,...props }: Props) => {
+  const { colors } = useAppTheme();
+  
+  const textColor = useMemo( () => ({
+    title: colors.primarySurfaceText,
+    body: colors.primarySurfaceText,
+    secondary: colors.secondarySurfaceText,
+    muted: colors.textMuted,
+    button: colors.primaryText,
+    buttonSecondary: colors.secondaryText,
+    error: colors.errorText,
+    success: colors.successText,
+    warning: colors.warningText
+  }), [colors]);
+
   return (
-    <FCText className={cn('text-onBackground dark:text-onBackground-dark', className)} {...props}>
+    <FCText style={[{ color: textColor[variant] }, style]} {...props}>
       {children}
     </FCText>
   );

@@ -8,18 +8,34 @@ type OnboardingStepProps = {
 
 export const IntroPanel = ({ step }: OnboardingStepProps) => {
   return (
-    <View className="items-center justify-center p-8 py-16" style={{ width: WINDOW_WIDTH }}>
+    <View style={[ styles.container, { width: WINDOW_WIDTH }]}>
       <Image source={step.imageId} style={styles.image} resizeMode="contain" />
-      <Text className="mt-4 text-center text-3xl font-bold">{step.title}</Text>
-      <Text className="mt-2 text-center text-xl">{step.description}</Text>
+      <Text style={styles.title}>{step.title}</Text>
+      <Text style={styles.subtitle}>{step.description}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 32,
+  },
+  title: {
+    marginTop: 8,
+    textAlign: 'center',
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  subtitle: {
+    marginTop: 8,
+    textAlign: 'center',
+    fontSize: 16
+  },
   image: {
     width: WINDOW_WIDTH * 0.8,
     height: 350,
-    resizeMode: "cover"
+    resizeMode: "cover",
   }
 });

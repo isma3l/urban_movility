@@ -1,4 +1,3 @@
-import '../../global.css';
 import { ThemeProvider } from '@react-navigation/native';
 import FlashMessage from 'react-native-flash-message';
 import { Stack } from 'expo-router';
@@ -8,11 +7,10 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 
-import { useThemeConfig } from '@/core/hooks/useThemeConfig';
+import { useAppTheme } from '@/core/hooks/useThemeConfig';
 import { APIProvider } from '@/core/api';
-import { loadSelectedTheme } from '@/core';
-import '@/core/i18n';
-import { configureGoogle } from '@/core';
+import { loadSelectedTheme, configureGoogle } from '@/core';
+import '@/core/lib/i18n';
 import { useEffect } from 'react';
 
 loadSelectedTheme();
@@ -45,7 +43,7 @@ export default function RootLayout() {
 */
 
 function Providers({ children }: { children: React.ReactNode }) {
-  const theme = useThemeConfig();
+  const theme = useAppTheme();
 
   return (
     <GestureHandlerRootView style={styles.container}>

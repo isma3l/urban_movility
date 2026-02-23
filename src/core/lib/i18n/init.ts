@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import { getDeviceLanguage } from './supportedLanguages';
 import { resources } from './config';
 
+// eslint-disable-next-line import/no-named-as-default-member
 i18n.use(initReactI18next).init({
   resources: resources,
   lng: getDeviceLanguage(),

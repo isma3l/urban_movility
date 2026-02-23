@@ -1,20 +1,27 @@
 import { View as FCView, ViewProps, StyleProp, ViewStyle } from 'react-native';
-import { cn } from '../utils';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAppTheme } from '../hooks/useThemeConfig';
 
 interface Props extends ViewProps {
   children?: React.ReactNode;
-  className?: string;
-  safe?: boolean;
+  style?: StyleProp<ViewStyle>;
+  safe?: boolean
 }
 
-// problema con safe, si bien aplica un padding top y bottom, elimina cualquier otro padding horizontal 
-// que se agregue
-export const View = ({ children, className, safe, ...props }: Props) => {
+export const View = ({ children, style, safe, ...props }: Props) => {
+  const { colors } = useAppTheme();
+  const insets = useSafeAreaInsets();
+
   return (
-    <FCView
-      className={cn('bg-background dark:bg-background-dark', { 'p-safe': safe }, className)}
+    <FCView style={[
+      { 
+      backgroundColor: colors.background,
+        paddingTop: safe ? insets.top : 0, 
+        paddingBottom: safe ? insets.bottom : 0
+      },
+      style]} 
       {...props}>
-      {children}
+        {children}
     </FCView>
   );
 };

@@ -5,6 +5,6 @@ export function configureGoogle() {
   GoogleSignin.configure({
     webClientId: Env.WEB_CLIENT_ID,
     iosClientId: Env.IOS_CLIENT_ID,
-    offlineAccess: true,
+    offlineAccess: false, // firebase dont need access offline to the google's account to keep user'session active
   });
 }

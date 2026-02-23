@@ -2,69 +2,89 @@ import {
   Pressable,
   PressableProps,
   StyleProp,
+  StyleSheet,
   Text,
   TextStyle,
-  View,
   ViewStyle,
 } from 'react-native';
-import { cn } from '../utils';
 import { SvgProps } from 'react-native-svg';
+import { useMemo } from 'react';
+import { useAppTheme } from '../hooks/useThemeConfig';
 
-type Mode = 'text' | 'outline' | 'contained';
+type ButtonVariant = 'text' | 'outline' | 'contained';
 
 interface ButtonProps extends PressableProps {
   children: React.ReactNode;
-  className?: string;
-  buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
-  mode?: Mode;
   disabled?: boolean;
+  variant?: ButtonVariant,
+  style?: StyleProp<ViewStyle>,
   LeftIcon?: React.FC<SvgProps>; 
 }
 
-// Uso un children en Pressable porque NativeWind no soporta un style con callback
 export const Button = ({
-  className,
-  buttonStyle,
-  textStyle,
-  LeftIcon,
-  mode = 'contained',
-  children,
-  ...props
+    children,
+    textStyle,
+    disabled,
+    LeftIcon,
+    style,
+    variant = 'contained',
+    ...props
 }: ButtonProps) => {
+    const { colors } = useAppTheme();
+  
+  const containerColors = useMemo(() => ({
+    contained: {
+        backgroundColor: colors.primary,
+    },
+    outline: {  
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: colors.primary
+    },
+    text: {
+        backgroundColor: 'transparent',
+    }
+  }), [colors]);
+
+  const textColors = useMemo(() => ({
+    contained: {
+        color: colors.primaryText,
+    },
+    outline: {
+        color: colors.primary,
+    },
+    text: {
+        color: colors.primary
+    }
+  }), [colors]);
+
   return (
-    <Pressable {...props}> 
-      {({ pressed }) => (
-        <View
-          className={cn(
-            'flex-row justify-center gap-8 rounded-xl px-6 py-3',
-            modes[mode].background,
-            { 'opacity-70': pressed },
-            className
-          )}
-          style={buttonStyle}
-          >
-          {LeftIcon && <LeftIcon width={24} height={24} />}
-          <Text className={cn('text-center text-lg', modes[mode].text)} style={textStyle}>
+    <Pressable style={({pressed}) => [styles.container, containerColors[variant], pressed && styles.pressedOpacity, style]} {...props}> 
+        {LeftIcon && <LeftIcon width={24} height={24} />}
+        <Text style={[styles.labelText, textColors[variant], textStyle]}> 
             {children}
-          </Text>
-        </View>
-      )}
+        </Text>
     </Pressable>
   );
 };
 
-const modes = {
-  contained: {
-    background: 'bg-primary dark:bg-primary-dark',
-    text: 'text-onPrimary dark:text-onPrimary-dark',
-  },
-  outline: {
-    background: 'bg-background dark:bg-background-dark border border-primary dark:border-primary',
-    text: 'text-primary dark:text-primary-dark',
-  },
-  text: {
-    background: 'bg-transparent dark:bg-transparent',
-    text: 'text-primary dark:text-primary-dark',
-  },
-};
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 32,
+        borderRadius: 12,
+        paddingHorizontal: 24,
+        paddingVertical: 12,
+    },
+    pressedOpacity: {
+        opacity: 0.7,
+    },
+    labelText: {
+        textAlign: 'center',
+        fontSize: 18,
+        lineHeight: 28
+    }
+});

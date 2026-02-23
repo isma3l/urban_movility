@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
-import { FlatList, ImageSourcePropType } from 'react-native';
+import { FlatList, ImageSourcePropType, StyleSheet } from 'react-native';
 
-import { cn, View } from '@/core';
+import { useAppTheme, View } from '@/core';
 import { IntroPanel } from './IntroPanel';
 
 export type Step = {
@@ -28,6 +28,7 @@ const steps: Step[] = [
 ];
 
 export const IntroSlider = () => {
+  const { colors } = useAppTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
   const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 50 }).current;
 
@@ -44,7 +45,7 @@ export const IntroSlider = () => {
   }, []);
 
   return (
-    <View className="flex-1">
+    <View style={styles.container}>
       <FlatList
         data={steps}
         renderItem={renderItem}
@@ -55,19 +56,36 @@ export const IntroSlider = () => {
         viewabilityConfig={viewabilityConfig}
         onViewableItemsChanged={handleViewableItemsChanged}
       />
-      <View className="mt-4 flex-row justify-center gap-2">
+      <View style={styles.dotsContainer}>
         {steps.map((_, index) => (
           <View
             key={index}
-            className={cn('h-3 w-3 rounded-full', {
-              'bg-black': currentIndex === index,
-              'bg-gray-300': currentIndex !== index,
-              'dark:bg-white': currentIndex === index,
-              'dark:bg-gray-600': currentIndex !== index,
-            })}
+            style={[
+              styles.dot,
+              {
+                backgroundColor: currentIndex === index ? colors.primarySurfaceText : colors.border
+              }
+            ]}
           />
         ))}
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  dotsContainer: {
+    marginTop: 16,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8
+  },
+  dot: {
+    height: 12,
+    width: 12,
+    borderRadius: 12
+  }
+});

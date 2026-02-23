@@ -1,7 +1,7 @@
 import { Button, isIOs, Text, View } from "@/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, TextInput, KeyboardAvoidingView, Platform } from "react-native";
+import { StyleSheet, TextInput, KeyboardAvoidingView } from "react-native";
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal'
 
 
@@ -22,7 +22,7 @@ export default function PhoneHumberScreen() {
 
     return (
         <KeyboardAvoidingView 
-            style={{ flex: 1}} 
+            style={styles.page} 
             behavior={isIOs() ? 'padding' : "height"}
             keyboardVerticalOffset={90}
         >
@@ -48,7 +48,7 @@ export default function PhoneHumberScreen() {
                         keyboardType="phone-pad"
                     />
                 </View>
-                <Button style={{ marginTop: 'auto', marginBottom: 32 }}>
+                <Button style={styles.sendButton}>
                     {t("send-code")}
                 </Button>
             </View>
@@ -58,6 +58,9 @@ export default function PhoneHumberScreen() {
 }
 //<Button style={{alignSelf: 'flex-end', flex: 1, backgroundColor: 'yellow'}}>Enviar código</Button>
 const styles = StyleSheet.create({
+    page: {
+        flex: 1
+    },
     container: {
         flex: 1,
         paddingHorizontal: 16,
@@ -75,7 +78,6 @@ const styles = StyleSheet.create({
     },
     mainTitle: {
         fontSize: 24,
-        color: 'black',
         fontWeight: 'bold',
         marginBottom: 8
     },
@@ -94,5 +96,9 @@ const styles = StyleSheet.create({
     },
     prefix: {
         fontSize: 18
+    },
+    sendButton: {
+        marginTop: 'auto',
+        marginBottom: 32
     }
 });

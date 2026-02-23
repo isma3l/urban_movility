@@ -1,37 +1,51 @@
 import type { Theme } from '@react-navigation/native';
 import { DarkTheme, DefaultTheme } from '@react-navigation/native';
-import { useColorScheme } from 'nativewind';
+import { useColorScheme } from 'react-native';
 
 import colors from '../constants/colors';
 
-const AppDarkTheme: Theme = {
+type AppTheme = Theme & {
+  colors: Theme['colors'] & {
+    secondary: string,
+    surface: string,
+    primaryText: string,
+    secondaryText: string,
+    primarySurfaceText: string,
+    secondarySurfaceText: string,
+    textMuted: string,
+    success: string,
+    error: string,
+    warning: string,
+    successText: string,
+    errorText: string,
+    warningText: string,
+  }
+}
+
+const AppDarkTheme: AppTheme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
-    primary: colors.dark.primary,
-    background: colors.dark.background,
     card: colors.dark.surface,
-    text: colors.dark.onSurface,
-    border: colors.dark.border,
-    notification: colors.dark.notification,
+    text: colors.dark.primarySurfaceText,
+    notification: colors.dark.error,
+    ...colors.dark // contiene primary, background y border que son colores del theme
   },
 };
 
-const AppLightTheme: Theme = {
+const AppLightTheme: AppTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: colors.light.primary,
-    background: colors.light.background,
     card: colors.light.surface,
-    text: colors.light.onSurface,
-    border: colors.light.border,
-    notification: colors.light.notification,
+    text: colors.light.primarySurfaceText,
+    notification: colors.light.error,
+    ...colors.light
   },
 };
 
-export const useThemeConfig = (): Theme => {
-  const { colorScheme } = useColorScheme();
+export const useAppTheme = (): AppTheme => {
+  const colorScheme = useColorScheme();
 
   return colorScheme === 'dark' ? AppDarkTheme : AppLightTheme;
 };
