@@ -1,4 +1,4 @@
-import { Env } from '@/core';
+import { Env } from '../constants/env';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export function configureGoogle() {

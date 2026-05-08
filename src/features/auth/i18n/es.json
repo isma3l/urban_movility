@@ -1,6 +1,6 @@
 {
-  "continue-phone": "Continuar con teléfono",
-  "continue-google": "Continuar con Google",
-  "footer": "Al unirte a nuestra aplicación, aceptas nuestros Términos de Uso y Política de privacidad.",
+  "login-button-phone": "Entrar con número de celular",
+  "login-button-google": "Continuar con Google",
+  "login-button-email": "Entrar con mi email",
   "send-code": "Enviar código"
 }

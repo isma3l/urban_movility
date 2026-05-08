@@ -1,30 +1,19 @@
-import { Redirect, Slot, SplashScreen } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged, FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { Redirect, Slot } from 'expo-router';
+import { useEffect } from 'react';
+import { useAuthState } from '@/features/auth/hooks';
 
 export default function AppLayout() {
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+  const { initializing, user } = useAuthState();
 
   useEffect(() => {
     const hideSplash = async () => {
-      await SplashScreen.hideAsync();
+      //await SplashScreen.hideAsync(); // usar una biblioteca externa para manejar el splash
     }
 
     if (!initializing) {
       hideSplash();
     }
   }, [initializing]);
-
-  useEffect(() => {
-    const authInstance = getAuth();
-    const suscriber = onAuthStateChanged(authInstance, (user) => {
-      setUser(user);
-      setInitializing(false);
-      console.log('onAuthStateChanged', { user });
-    });
-    return suscriber;
-  }, []);
 
   if (initializing) return null;
 

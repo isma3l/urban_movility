@@ -2,7 +2,7 @@ import { Text as FCText, StyleProp, TextProps, TextStyle } from 'react-native';
 import { useAppTheme } from '../hooks/useThemeConfig';
 import { useMemo } from 'react';
 
-type TextVariant = 'title' | 'body' | 'secondary' | 'muted' | 'button' | 'buttonSecondary' | 'error' | 'warning' | 'success';
+type TextVariant = 'onPrimary' | 'onSecondary' | 'onSurface' | 'onBackground' | 'onSurfaceVariant';
 
 interface Props extends TextProps {
   children?: React.ReactNode;
@@ -10,19 +10,15 @@ interface Props extends TextProps {
   variant?: TextVariant;
 }
 
-export const Text = ({ children, style, variant = 'body' ,...props }: Props) => {
+export const Text = ({ children, style, variant = 'onBackground' ,...props }: Props) => {
   const { colors } = useAppTheme();
   
   const textColor = useMemo( () => ({
-    title: colors.primarySurfaceText,
-    body: colors.primarySurfaceText,
-    secondary: colors.secondarySurfaceText,
-    muted: colors.textMuted,
-    button: colors.primaryText,
-    buttonSecondary: colors.secondaryText,
-    error: colors.errorText,
-    success: colors.successText,
-    warning: colors.warningText
+    onPrimary: colors.onPrimary,
+    onSecondary: colors.onSecondary,
+    onSurface: colors.onSurface,
+    onBackground: colors.onBackground,
+    onSurfaceVariant: colors.onSurfaceVariant
   }), [colors]);
 
   return (

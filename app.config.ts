@@ -13,11 +13,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
   newArchEnabled: true,
-  splash: {
-    image: './assets/splash.png',
-    resizeMode: 'contain',
-    backgroundColor: '#ffffff',
-  },
   updates: {
     fallbackToCacheTimeout: 0,
   },
@@ -48,7 +43,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'expo-splash-screen',
       {
         backgroundColor: '#FFFFFF',
-        image: './assets/adaptive-icon.png',
+        image: './assets/logo_png.png',
         imageWidth: 150,
       },
     ],
@@ -67,7 +62,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         ios: {
           useFrameworks: 'static',
-          useModularHeaders: true
+          forceStaticLinking: ["RNFBApp", "RNFBAuth", "RNFBFirestore"]
         }
       }
     ],

@@ -11,7 +11,7 @@ import { SvgProps } from 'react-native-svg';
 import { useMemo } from 'react';
 import { useAppTheme } from '../hooks/useThemeConfig';
 
-type ButtonVariant = 'text' | 'outline' | 'contained';
+type ButtonVariant = 'text' | 'outline' | 'primary' | 'elevation';
 
 interface ButtonProps extends PressableProps {
   children: React.ReactNode;
@@ -28,13 +28,13 @@ export const Button = ({
     disabled,
     LeftIcon,
     style,
-    variant = 'contained',
+    variant = 'primary',
     ...props
 }: ButtonProps) => {
     const { colors } = useAppTheme();
   
   const containerColors = useMemo(() => ({
-    contained: {
+    primary: {
         backgroundColor: colors.primary,
     },
     outline: {  
@@ -44,24 +44,36 @@ export const Button = ({
     },
     text: {
         backgroundColor: 'transparent',
+    },
+    elevation: {
+        backgroundColor: colors.surface,
+        elevation: 3,
     }
   }), [colors]);
 
   const textColors = useMemo(() => ({
-    contained: {
-        color: colors.primaryText,
+    primary: {
+        color: colors.onPrimary,
     },
     outline: {
         color: colors.primary,
     },
     text: {
         color: colors.primary
+    },
+    elevation: {
+        color: colors.onSurface,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     }
   }), [colors]);
 
   return (
     <Pressable style={({pressed}) => [styles.container, containerColors[variant], pressed && styles.pressedOpacity, style]} {...props}> 
-        {LeftIcon && <LeftIcon width={24} height={24} />}
+        {LeftIcon && <LeftIcon style={styles.icon} width={24} height={24} />}
         <Text style={[styles.labelText, textColors[variant], textStyle]}> 
             {children}
         </Text>
@@ -71,6 +83,7 @@ export const Button = ({
 
 const styles = StyleSheet.create({
     container: {
+        position: 'relative',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -79,12 +92,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
         paddingVertical: 12,
     },
+    icon: {
+        position: 'absolute',
+        left: 16,
+    },
     pressedOpacity: {
         opacity: 0.7,
     },
     labelText: {
         textAlign: 'center',
         fontSize: 18,
-        lineHeight: 28
+        lineHeight: 28,
+        fontWeight: 500
     }
 });

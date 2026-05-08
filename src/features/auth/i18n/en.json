@@ -1,6 +1,6 @@
 {
-  "continue-phone": "Continue with phone",
-  "continue-google": "Continue with Google",
-  "footer": "By joining our app, you agree to our Terms of Use and Privacy Policy.",
+  "login-button-phone": "Sign in with phone",
+  "login-button-google": "Continue with Google",
+  "login-button-email": "Sign in with email",
   "send-code": "Send code"
 }
