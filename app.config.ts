@@ -23,9 +23,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: true,
     bundleIdentifier: Env.BUNDLE_ID,
+    config: {
+      googleMapsApiKey: Env.GOOGLE_MAPS_KEY
+    },
     googleServicesFile: `./firebase/${Env.APP_ENV}/GoogleService-Info.plist`
   },
   android: {
+    config: {
+      googleMaps: {
+        apiKey: Env.GOOGLE_MAPS_KEY
+      }
+    },
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#FFFFFF',

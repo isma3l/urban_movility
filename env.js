@@ -42,7 +42,8 @@ const buildTimeEnv = {
   // ADD YOUR ENV VARS HERE TOO
   SECRET_KEY: process.env.SECRET_KEY,
   WEB_CLIENT_ID: process.env.WEB_CLIENT_ID,
-  IOS_CLIENT_ID: process.env.IOS_CLIENT_ID
+  IOS_CLIENT_ID: process.env.IOS_CLIENT_ID,
+  GOOGLE_MAPS_KEY: process.env.GOOGLE_MAPS_KEY
 };
 
 const Env = {
