@@ -1,31 +1,22 @@
-import { View } from '@/core';
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import { View, Text } from '@/core';
 import { StyleSheet, StatusBar } from "react-native";
+import { BottomSheetCustom, TravelMap } from '@/features/home/components'
+import { useLocation } from '@/features/home/hooks';
 
 export default function HomeScreen() {
+  const { permissionGranted } = useLocation();
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
-      <MapView
-        provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        initialRegion={{
-          latitude: 41.3851,
-          longitude: 2.1734,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        }}
-      >
-        <Marker
-          coordinate={{ latitude: 41.3851, longitude: 2.1734 }}
-          title="Barcelona"
-        />
-      </MapView>
+      <TravelMap permissionGranted={permissionGranted} />
+      <BottomSheetCustom>
+        <Text>Awesome 🎉</Text>
+      </BottomSheetCustom>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  map: { flex: 1 },
 });
