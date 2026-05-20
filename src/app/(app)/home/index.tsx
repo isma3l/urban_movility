@@ -1,7 +1,8 @@
-import { View, Text } from '@/core';
+import { View } from '@/core';
 import { StyleSheet, StatusBar } from "react-native";
-import { BottomSheetCustom, TravelMap } from '@/features/home/components'
 import { useLocation } from '@/features/home/hooks';
+import { TripMap } from '@/features/home/components';
+import { TripManager } from '@/features/home/components/TripManager';
 
 export default function HomeScreen() {
   const { permissionGranted } = useLocation();
@@ -9,10 +10,8 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
-      <TravelMap permissionGranted={permissionGranted} />
-      <BottomSheetCustom>
-        <Text>Awesome 🎉</Text>
-      </BottomSheetCustom>
+      <TripMap permissionGranted={permissionGranted} />
+      <TripManager />
     </View>
   );
 }

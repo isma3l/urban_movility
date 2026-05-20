@@ -1,0 +1,13 @@
+{
+  "bottom_sheet": {
+    "origin_selector": {
+        "title": "Let's go!",
+      "select_destination_button": "Where to?"
+    },
+    "destination_selector": {
+      "title": "Your trip",
+      "origin_placeholder": "Enter pickup",
+      "destination_placeholder": "Enter destination"
+    }
+  }
+}

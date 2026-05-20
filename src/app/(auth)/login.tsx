@@ -21,7 +21,12 @@ export default function LoginScreen() {
         <IntroSlider />
       </View>
       <View style={styles.buttonContainer}>
-        <Button LeftIcon={Google} variant='elevation' onPress={() => signIn(googleProvider)}>{t("login-button-google")}</Button>
+        <Button 
+          LeftIcon={<Google width={24} height={24} />} 
+          variant='elevation' 
+          onPress={() => signIn(googleProvider)}>
+            {t("login-button-google")}
+        </Button>
         <Button onPress={() => router.navigate('/phone')}>{t("login-button-phone")}</Button>
         <Button variant='text'>{t("login-button-email")}</Button>
       </View>

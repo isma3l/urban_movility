@@ -6,7 +6,7 @@ type Props = {
   permissionGranted: boolean
 }
 
-export function TravelMap({ permissionGranted }: Props) {
+export function TripMap({ permissionGranted }: Props) {
     return (
         <MapView
         provider={PROVIDER_GOOGLE}

@@ -16,6 +16,10 @@ module.exports = {
     surfaceVariant: '#F2F2F2',
     onSurfaceVariant: '#FFFFFF',
     error: '#FF4D4D',
+    inputBackground: '#F3F3F7',
+    inputTextPlaceholder: '#70707B',
+    success: '#00C853',
+    onSuccess: '#FFFFFF'
   },
   dark: {
     primary: '#7350FF',
@@ -33,5 +37,9 @@ module.exports = {
     surfaceVariant: '#2C2C2C',
     onSurfaceVariant: '#FFFFFF',
     error: '#FF4D4D',
+    inputBackground: '#1E1E24',
+    inputTextPlaceholder: '#9E9EAC',
+    success: '#66BB6A',
+    onSuccess: '#003308'
   },
 };

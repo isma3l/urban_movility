@@ -5,9 +5,9 @@ import {
   StyleSheet,
   Text,
   TextStyle,
+  View,
   ViewStyle,
 } from 'react-native';
-import { SvgProps } from 'react-native-svg';
 import { useMemo } from 'react';
 import { useAppTheme } from '../hooks/useThemeConfig';
 
@@ -16,15 +16,17 @@ type ButtonVariant = 'text' | 'outline' | 'primary' | 'elevation';
 interface ButtonProps extends PressableProps {
   children: React.ReactNode;
   textStyle?: StyleProp<TextStyle>;
+  iconStyle?: StyleProp<ViewStyle>;
   disabled?: boolean;
   variant?: ButtonVariant,
   style?: StyleProp<ViewStyle>,
-  LeftIcon?: React.FC<SvgProps>; 
+  LeftIcon?: React.ReactNode,
 }
 
 export const Button = ({
     children,
     textStyle,
+    iconStyle,
     disabled,
     LeftIcon,
     style,
@@ -70,10 +72,15 @@ export const Button = ({
         shadowRadius: 3,
     }
   }), [colors]);
-
+  
   return (
-    <Pressable style={({pressed}) => [styles.container, containerColors[variant], pressed && styles.pressedOpacity, style]} {...props}> 
-        {LeftIcon && <LeftIcon style={styles.icon} width={24} height={24} />}
+    <Pressable style={({pressed}) => [
+        styles.container, 
+        containerColors[variant], 
+        pressed && styles.pressedOpacity, 
+        style]} {...props}
+    > 
+        {LeftIcon && <View style={[styles.icon, iconStyle]}>{LeftIcon}</View>}
         <Text style={[styles.labelText, textColors[variant], textStyle]}> 
             {children}
         </Text>

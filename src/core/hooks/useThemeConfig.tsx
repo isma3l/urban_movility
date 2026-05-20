@@ -15,6 +15,10 @@ type AppTheme = Theme & {
     surfaceVariant: string,
     onSurfaceVariant: string,
     error: string,
+    inputBackground: string,
+    inputTextPlaceholder: string,
+    success: string,
+    onSuccess: string,
   }
 }
 

@@ -1,0 +1,13 @@
+{
+  "bottom_sheet": {
+    "origin_selector": {
+      "title": "¡Vamos allá!",
+      "select_destination_button": "¿A dónde vas?"
+    },
+    "destination_selector": {
+      "title": "Tu viaje",
+      "origin_placeholder": "Introduce el origen",
+      "destination_placeholder": "Introduce el destino"
+    }
+  }
+}

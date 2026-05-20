@@ -1,2 +1,3 @@
-export { BottomSheetCustom } from './BottomSheetCustom';
-export { TravelMap } from './TravelMap';
+export { TripMap } from './TripMap';
+export { DestinationSelector } from './steps/DestinationSelector';
+export { OriginSelector } from './steps/OriginSelector';

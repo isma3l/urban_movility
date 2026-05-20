@@ -6,4 +6,5 @@ export * from './utils';
 export { View } from './components/View';
 export { Text } from './components/Text';
 export { Button } from './components/Button';
+export { Field } from './components/Field';
 export { configureGoogle } from './lib/firebase';
