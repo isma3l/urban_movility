@@ -26,7 +26,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     config: {
       googleMapsApiKey: Env.GOOGLE_MAPS_KEY
     },
-    googleServicesFile: `./firebase/${Env.APP_ENV}/GoogleService-Info.plist`
+    googleServicesFile: `./firebase/${Env.APP_ENV}/GoogleService-Info.plist`,
+    infoPlist: {
+      NSLocationWhenInUseUsageDescription: "Necesitamos tu ubicación para mostrarte los servicios cercanos.",
+      NSLocationAlwaysAndWhenInUseUsageDescription: "Necesitamos tu ubicación continua para rastrear tu ruta."
+    }
   },
   android: {
     config: {
@@ -40,7 +44,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     edgeToEdgeEnabled: true,
     package: Env.PACKAGE,
-    googleServicesFile: `./firebase/${Env.APP_ENV}/google-services.json`
+    googleServicesFile: `./firebase/${Env.APP_ENV}/google-services.json`,
+    permissions: [
+      'ACCESS_COARSE_LOCATION',
+      'ACCESS_FINE_LOCATION',
+      'FOREGROUND_SERVICE',
+      'FOREGROUND_SERVICE_LOCATION'
+    ]
   },
   web: {
     favicon: './assets/favicon.png',
@@ -62,7 +72,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     'expo-router',
-    'expo-localization',
+    [
+      'expo-localization', {
+        locationAlwaysPermission: "Permite a Altoque acceder a tu ubicación todo el tiempo.",
+        locationWhenInUsePermission: "Permite a Altoque acceder a tu ubicación mientras usas la app."
+      }
+    ],
     '@react-native-firebase/app',
     '@react-native-google-signin/google-signin',
     [

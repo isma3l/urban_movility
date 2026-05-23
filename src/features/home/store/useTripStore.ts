@@ -1,12 +1,10 @@
 import { create } from 'zustand';
 import { createSelectors } from '@/core/lib/zustand/createSelector';
-import { Step, Steps } from '../types/trip';
+import { Step, Steps } from '../types';
 
 interface TripStore {
     history: Step[];
     currentStep: Step
-    origin: string;
-    destination: string;
 
     setNextStep: (step: Step) => void;
     goBack: () => void;
@@ -16,8 +14,6 @@ interface TripStore {
 export const useTripStoreBase = create<TripStore>((set, get) => ({
     history: [Steps.ORIGIN],
     currentStep: Steps.ORIGIN,
-    origin: '',
-    destination: '',
     goBack: () => {
         const hasHistory = get().history.length > 1;
 

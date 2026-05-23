@@ -1,9 +1,9 @@
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete, GooglePlaceData, GooglePlaceDetail } from 'react-native-google-places-autocomplete';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import "react-native-get-random-values";
 import { Env, useAppTheme, View } from '@/core';
 import { Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { useRef, useState } from 'react';
+import { GooglePlaceRow } from './GooglePlaceRow';
 
 type Props = {
     placeholder?: string;
@@ -23,15 +23,28 @@ export function GooglePlaceInput({ placeholder = "", containerStyle, addressStyl
         setHasText(false);
     }
 
+    const handleAddressSelected = (data: GooglePlaceData, details: GooglePlaceDetail | null) => {
+        const mainText = data.structured_formatting.main_text
+        const secondaryText = data.structured_formatting.secondary_text
+
+        const latitude = details?.geometry.location.lat
+        const longitude = details?.geometry.location.lng
+
+        console.log({data})
+        console.log({details})
+    }
+
     return (
         <View style={[styles.container, containerStyle]}>
             <GooglePlacesAutocomplete 
                 ref={inputRef}
                 placeholder={placeholder}
+                fetchDetails
                 query={{
                     key: Env.GOOGLE_MAPS_KEY,
                     language: "en"
                 }}
+                onPress={handleAddressSelected}
                 textInputProps={{
                     autoCorrect: false,
                     autoComplete: 'off',
@@ -45,6 +58,12 @@ export function GooglePlaceInput({ placeholder = "", containerStyle, addressStyl
                         <MaterialCommunityIcons name="close-circle" size={24} color="black" />
                     </Pressable>
                 ) : null }
+                renderRow={({ structured_formatting }) => (
+                    <GooglePlaceRow 
+                        title={structured_formatting?.main_text ?? ''}
+                        subtitle={structured_formatting?.secondary_text ?? ''}
+                    />
+                )}
                 styles={{
                     container: {
                         flex: 0

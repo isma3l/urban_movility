@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import BottomSheet, { BottomSheetView, useBottomSheetTimingConfigs } from '@gorhom/bottom-sheet';
 import { Easing } from 'react-native-reanimated';
 import { DestinationSelector, OriginSelector } from '@/features/home/components';
-import { StepsRegistry, Steps } from "../types/trip";
+import { StepsRegistry, Steps } from "../types";
 import { useTripStore } from "../store/useTripStore";
 import { BottomSheetHeader } from './BottomSheetHeader';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
