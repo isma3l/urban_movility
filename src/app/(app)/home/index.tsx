@@ -5,16 +5,32 @@ import { TripManager } from '@/features/home/components/TripManager';
 import { useUserLocation } from '@/features/home/hooks';
 import { useEffect } from 'react';
 import { useLocationStore } from '@/features/home/store/useLocationStore';
+import { getLocationWithAddress } from '@/features/home/utils';
 
 export default function HomeScreen() {
   const { hasPermission, location} = useUserLocation();
-  const setOrigin = useLocationStore.use.setOrigin();
+  const setCurrentLocation = useLocationStore.use.setCurrentLocation();
   const setHasPermission = useLocationStore.use.setHasPermission();
 
   useEffect(() => {
-    setOrigin(location);
     setHasPermission(hasPermission);
-  }, [hasPermission, location, setHasPermission, setOrigin]);
+  }, [hasPermission, setHasPermission]);
+
+  useEffect(() => {
+    const updateCurrentLocation = async () => {
+      if (location) {
+        console.log("direcion: ", location)
+        setCurrentLocation(location);
+
+        const updatedLocation = await getLocationWithAddress(location);
+        if (updatedLocation) {
+          console.log("direccion completa:", updatedLocation);
+          setCurrentLocation(updatedLocation);
+        }
+      }
+    }
+    updateCurrentLocation();
+  }, [location, setCurrentLocation]);
 
   return (
     <View style={styles.container}>

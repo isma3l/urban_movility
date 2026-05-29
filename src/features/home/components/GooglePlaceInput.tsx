@@ -1,25 +1,54 @@
-import { GooglePlacesAutocomplete, GooglePlaceData, GooglePlaceDetail } from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete, GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocompleteRef } from 'react-native-google-places-autocomplete';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Env, useAppTheme, View } from '@/core';
 import { Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GooglePlaceRow } from './GooglePlaceRow';
 
 type Props = {
     placeholder?: string;
     containerStyle?: StyleProp<ViewStyle>;
-    addressStyle?: StyleProp<ViewStyle>
+    addressListStyle?: StyleProp<ViewStyle>;
+    initialValue?: string;
+    leftIcon?: React.ReactNode;
+    initialFocus?: boolean;
 }
 
-export function GooglePlaceInput({ placeholder = "", containerStyle, addressStyle = {} }: Props) {
+export function GooglePlaceInput({ placeholder = "", containerStyle, leftIcon, initialValue, addressListStyle = {}, initialFocus = false }: Props) {
     const { colors } = useAppTheme();
-    const inputRef = useRef<any>(null);
-    const [focused, setFocused] = useState(false);
+    const autocompleteRef = useRef<GooglePlacesAutocompleteRef>(null);
+    const [focused, setFocused] = useState(initialFocus);
     const [hasText, setHasText] = useState(false);
-    const flattenedAddressStyle = StyleSheet.flatten(addressStyle) || {};
-    
+    const flattenedAddressListStyle = StyleSheet.flatten(addressListStyle);
+
+    useEffect(() => {
+        if (!initialValue) return;
+        
+        autocompleteRef.current?.setAddressText(initialValue);
+    }, [initialValue]);
+
+    useEffect(() => {
+        if (!initialFocus) return;
+
+        const timeout = setTimeout(() => {
+            autocompleteRef.current?.focus();
+        }, 300)
+        
+        return () => clearTimeout(timeout);
+    }, [initialFocus]);
+
+    const defaultIconLeft = (
+        <MaterialCommunityIcons 
+            name="magnify" 
+            size={24} 
+            color={colors.inputTextPlaceholder}
+        />
+    );
+
+    const currentLeftIcon = focused ? defaultIconLeft : (leftIcon ?? defaultIconLeft)
+
     const clearText = () => {
-        inputRef.current?.setAddressText("");
+        autocompleteRef.current?.setAddressText("");
         setHasText(false);
     }
 
@@ -37,7 +66,7 @@ export function GooglePlaceInput({ placeholder = "", containerStyle, addressStyl
     return (
         <View style={[styles.container, containerStyle]}>
             <GooglePlacesAutocomplete 
-                ref={inputRef}
+                ref={autocompleteRef}
                 placeholder={placeholder}
                 fetchDetails
                 query={{
@@ -51,8 +80,13 @@ export function GooglePlaceInput({ placeholder = "", containerStyle, addressStyl
                     textContentType: 'none',
                     onFocus: () => setFocused(true),
                     onBlur: () => setFocused(false),
-                    onChangeText: (text) => setHasText(text.length > 0)
+                    onChangeText: (text) => setHasText(text.length > 0),
                 }}
+                renderLeftButton={ () => (
+                    <View style={styles.leftIconContainer}>
+                        { currentLeftIcon }
+                    </View>
+                    )}
                 renderRightButton={ () => hasText ? (
                     <Pressable style={styles.clearButton} onPress={clearText}>
                         <MaterialCommunityIcons name="close-circle" size={24} color="black" />
@@ -76,6 +110,7 @@ export function GooglePlaceInput({ placeholder = "", containerStyle, addressStyl
                     textInput: {
                         borderColor: focused ? colors.primary : 'transparent',
                         backgroundColor: focused ? 'white' : colors.surfaceVariant,
+                        paddingHorizontal: 36,
                         borderWidth: 2,
                         borderRadius: 8
                     },
@@ -84,7 +119,7 @@ export function GooglePlaceInput({ placeholder = "", containerStyle, addressStyl
                         position: 'absolute',
                         top: 150,
                         zIndex: 99,
-                        ...flattenedAddressStyle
+                        ...flattenedAddressListStyle
                     },
                     powered: {
                         opacity: 0.4,
@@ -99,6 +134,13 @@ export function GooglePlaceInput({ placeholder = "", containerStyle, addressStyl
 const styles = StyleSheet.create({
     container: {
         overflow: 'visible',
+    },
+    leftIconContainer : {
+        position: 'absolute',
+        backgroundColor: 'transparent',
+        left: 8,
+        top: 8,
+        zIndex: 10
     },
     clearButton: {
         position: 'absolute',

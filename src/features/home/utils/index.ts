@@ -1,0 +1,1 @@
+export { getLocationWithAddress } from './getLocationWithAddress';

@@ -1,7 +1,7 @@
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Button, useAppTheme, View, Text } from "@/core";
 import { StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { Button, useAppTheme, View, Text } from "@/core";
 import { useTripStore } from '../../store/useTripStore';
 import { GooglePlaceRow } from '../GooglePlaceRow';
 

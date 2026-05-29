@@ -1,6 +1,7 @@
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewDirections from 'react-native-maps-directions';
 import { StyleSheet } from 'react-native';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Env, useAppTheme, WINDOW_HEIGHT } from "@/core";
 import { useEffect, useRef } from "react";
 import { useLocationStore } from "../store/useLocationStore";
@@ -11,7 +12,7 @@ export function TripMap() {
     const { colors } = useAppTheme();
     const mapRef = useRef<MapView>(null);
     const hasPermission = useLocationStore.use.hasPermission();
-    const currentLocation = useLocationStore.use.origin();
+    const currentLocation = useLocationStore.use.currentLocation();
     const { latitude, longitude } = currentLocation ?? initialLocation;
 
     useEffect(() => {
@@ -38,6 +39,11 @@ export function TripMap() {
         }}
         mapPadding={{ top: 0, right: 0, left: 0, bottom: WINDOW_HEIGHT * 0.5 }}
       >
+        { currentLocation && (
+          <Marker coordinate={currentLocation} anchor={{ x: 0.5, y: 1 }}>
+            <MaterialCommunityIcons name="human-greeting-variant" size={26} color="black" />
+          </Marker>          
+        )}
         <MapViewDirections
           apikey={Env.GOOGLE_MAPS_KEY}
           origin={{
