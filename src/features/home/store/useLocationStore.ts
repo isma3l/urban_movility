@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import * as Location from 'expo-location'
 import { createSelectors } from "@/core/lib/zustand/createSelector";
 import { TripLocation } from "../types";
 
@@ -12,6 +11,7 @@ interface LocationState {
     updateCurrentLocation: () => Promise<void>;
     setOrigin: (origin: TripLocation | null) => void;
     setDestination: (destination: TripLocation | null) => void;
+    resetOriginAndDestination: () => void;
 }
 
 export const useLocationStoreBase = create<LocationState>((set, get) => ({
@@ -63,7 +63,8 @@ export const useLocationStoreBase = create<LocationState>((set, get) => ({
         }
     },
     setOrigin: (origin) => set({ origin }),
-    setDestination: (destination) => set({ destination })
+    setDestination: (destination) => set({ destination }),
+    resetOriginAndDestination: () => set({ origin: null, destination: null })
 }))
 
 export const useLocationStore = createSelectors(useLocationStoreBase);

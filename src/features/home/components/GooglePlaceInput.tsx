@@ -91,6 +91,7 @@ export function GooglePlaceInput({
                 latitude,
                 longitude
             }
+            autocompleteRef.current?.setAddressText(shortAddress);
             setLocation(location);
         }
     }

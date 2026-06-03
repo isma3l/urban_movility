@@ -3,11 +3,18 @@ import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Button, useAppTheme, View, Text } from "@/core";
 import { useTripStore } from '../../store/useTripStore';
+import { useLocationStore } from '../../store/useLocationStore';
 
 export function OriginSelector() {
     const { colors } = useAppTheme();
     const { t } = useTranslation("home");
     const selectDestination = useTripStore.use.selectDestination();
+    const resetOriginAndDestination = useLocationStore.use.resetOriginAndDestination();
+
+    const handleSelectDestination = () => {
+        resetOriginAndDestination();
+        selectDestination();
+    }
 
     return (
         <View style={styles.container}>
@@ -16,7 +23,7 @@ export function OriginSelector() {
             </Text>
             
             <Button
-                onPress={selectDestination}
+                onPress={handleSelectDestination}
                 LeftIcon={<MaterialCommunityIcons name="magnify" size={24} color="gray" />}
                 style={[styles.destinationButton, { backgroundColor: colors.inputBackground }]}  
                 textStyle={[styles.labelButton, { color: colors.inputTextPlaceholder }]}
