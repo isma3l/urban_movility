@@ -42,12 +42,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#FFFFFF',
     },
+    "softwareKeyboardLayoutMode": "pan",
     edgeToEdgeEnabled: true,
     package: Env.PACKAGE,
     googleServicesFile: `./firebase/${Env.APP_ENV}/google-services.json`,
     permissions: [
       'ACCESS_COARSE_LOCATION',
       'ACCESS_FINE_LOCATION',
+      'ACCESS_BACKGROUND_LOCATION',
       'FOREGROUND_SERVICE',
       'FOREGROUND_SERVICE_LOCATION'
     ]

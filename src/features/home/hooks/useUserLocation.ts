@@ -1,21 +1,31 @@
 import { useEffect } from "react";
-import { useCurrentLocation } from "./useCurrentLocation";
-import { useLocationPermission } from "./useLocationPermission";
+import { PermissionStatus } from 'expo-location'
+import { useLocationStore } from "../store/useLocationStore";
+import { usePermissionStore } from "@/core/store/usePermissionStore";
+import { Linking } from "react-native";
 
 export function useUserLocation() {
-    const { hasPermission, requestPermission } = useLocationPermission();
-    const { location, refreshLocation } = useCurrentLocation();
+    const status = usePermissionStore.use.status();
+    const isCheckingPermission = usePermissionStore.use.isLoading();
+    const canAskAgain = usePermissionStore.use.canAskAgain();
+    const requestPermission = usePermissionStore.use.requestPermission();
+    const updateCurrentLocation = useLocationStore.use.updateCurrentLocation();
+    const currentLocation = useLocationStore.use.currentLocation();
     
     useEffect(() => {
-        if (hasPermission) {
-            refreshLocation()
-        } else {
-            requestPermission()
-        }
-    }, [hasPermission, refreshLocation, requestPermission]);
+        if (isCheckingPermission) return;
 
-    return {
-        hasPermission,
-        location,
-    }
+        if (status === PermissionStatus.GRANTED && currentLocation === null) {
+            updateCurrentLocation();
+        }
+        
+        if (status !== PermissionStatus.GRANTED && canAskAgain) {
+            requestPermission();
+        } 
+        
+        if (status === PermissionStatus.DENIED && !canAskAgain) { 
+            console.log("peor caso");
+            Linking.openSettings();
+        }
+    }, [canAskAgain, currentLocation, isCheckingPermission, requestPermission, status, updateCurrentLocation]);
 }

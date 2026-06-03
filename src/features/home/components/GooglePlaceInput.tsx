@@ -1,9 +1,10 @@
-import { GooglePlacesAutocomplete, GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocompleteRef } from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete, GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocompleteRef, Place } from 'react-native-google-places-autocomplete';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { GooglePlaceRow } from './GooglePlaceRow';
 import { Env, useAppTheme, View } from '@/core';
 import { Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
-import { GooglePlaceRow } from './GooglePlaceRow';
+import { TripLocation } from '../types';
 
 type Props = {
     placeholder?: string;
@@ -12,9 +13,19 @@ type Props = {
     initialValue?: string;
     leftIcon?: React.ReactNode;
     initialFocus?: boolean;
+    predefinedPlaces?: Place[];
+    setLocation: (location: TripLocation | null) => void;
 }
 
-export function GooglePlaceInput({ placeholder = "", containerStyle, leftIcon, initialValue, addressListStyle = {}, initialFocus = false }: Props) {
+export function GooglePlaceInput({ 
+    containerStyle, 
+    leftIcon, 
+    initialValue, 
+    setLocation,
+    predefinedPlaces = [],
+    placeholder = "",
+    addressListStyle = {}, 
+    initialFocus = false, }: Props) {
     const { colors } = useAppTheme();
     const autocompleteRef = useRef<GooglePlacesAutocompleteRef>(null);
     const [focused, setFocused] = useState(initialFocus);
@@ -23,9 +34,11 @@ export function GooglePlaceInput({ placeholder = "", containerStyle, leftIcon, i
 
     useEffect(() => {
         if (!initialValue) return;
-        
+        console.log("seteando valor inicial: ", initialValue)
         autocompleteRef.current?.setAddressText(initialValue);
-    }, [initialValue]);
+        setHasText(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (!initialFocus) return;
@@ -35,7 +48,10 @@ export function GooglePlaceInput({ placeholder = "", containerStyle, leftIcon, i
         }, 300)
         
         return () => clearTimeout(timeout);
-    }, [initialFocus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const showClearButton = hasText && focused;
 
     const defaultIconLeft = (
         <MaterialCommunityIcons 
@@ -50,17 +66,33 @@ export function GooglePlaceInput({ placeholder = "", containerStyle, leftIcon, i
     const clearText = () => {
         autocompleteRef.current?.setAddressText("");
         setHasText(false);
+        setLocation(null);
     }
 
-    const handleAddressSelected = (data: GooglePlaceData, details: GooglePlaceDetail | null) => {
-        const mainText = data.structured_formatting.main_text
-        const secondaryText = data.structured_formatting.secondary_text
+    const handleChangeText = (text: string) => {
+        const size = text.length;
+        setHasText(size > 0);
 
+        if (size === 0) {
+            setLocation(null);
+        }
+    }
+
+    const handleSelectedAddress = (data: GooglePlaceData, details: GooglePlaceDetail | null) => {
+        const shortAddress = data.structured_formatting.main_text;
+        const address = details?.formatted_address;
         const latitude = details?.geometry.location.lat
         const longitude = details?.geometry.location.lng
 
-        console.log({data})
-        console.log({details})
+        if (latitude && longitude) {
+            const location: TripLocation = {
+                address,
+                shortAddress,
+                latitude,
+                longitude
+            }
+            setLocation(location);
+        }
     }
 
     return (
@@ -73,30 +105,30 @@ export function GooglePlaceInput({ placeholder = "", containerStyle, leftIcon, i
                     key: Env.GOOGLE_MAPS_KEY,
                     language: "en"
                 }}
-                onPress={handleAddressSelected}
+                onPress={handleSelectedAddress}
+                predefinedPlacesAlwaysVisible={true}
+                predefinedPlaces={predefinedPlaces}
+                minLength={0}
                 textInputProps={{
                     autoCorrect: false,
                     autoComplete: 'off',
                     textContentType: 'none',
                     onFocus: () => setFocused(true),
                     onBlur: () => setFocused(false),
-                    onChangeText: (text) => setHasText(text.length > 0),
+                    onChangeText: handleChangeText,
                 }}
                 renderLeftButton={ () => (
                     <View style={styles.leftIconContainer}>
                         { currentLeftIcon }
                     </View>
                     )}
-                renderRightButton={ () => hasText ? (
+                renderRightButton={ () => showClearButton ? (
                     <Pressable style={styles.clearButton} onPress={clearText}>
                         <MaterialCommunityIcons name="close-circle" size={24} color="black" />
                     </Pressable>
                 ) : null }
-                renderRow={({ structured_formatting }) => (
-                    <GooglePlaceRow 
-                        title={structured_formatting?.main_text ?? ''}
-                        subtitle={structured_formatting?.secondary_text ?? ''}
-                    />
+                renderRow={(data: any) => (
+                    <GooglePlaceRow data={{ ...data, isPredefinedPlace: !!data.isPredefinedPlace }} />
                 )}
                 styles={{
                     container: {

@@ -11,7 +11,6 @@ const initialLocation = { latitude: 41.3851, longitude: 2.1734 };
 export function TripMap() {
     const { colors } = useAppTheme();
     const mapRef = useRef<MapView>(null);
-    const hasPermission = useLocationStore.use.hasPermission();
     const currentLocation = useLocationStore.use.currentLocation();
     const { latitude, longitude } = currentLocation ?? initialLocation;
 
@@ -29,8 +28,8 @@ export function TripMap() {
         ref={mapRef}
         provider={PROVIDER_GOOGLE}
         style={styles.container}
-        showsUserLocation={hasPermission}
-        followsUserLocation={hasPermission}
+        showsUserLocation={!!currentLocation}
+        followsUserLocation={!!currentLocation}
         initialRegion={{
           latitude: latitude,
           longitude: longitude,

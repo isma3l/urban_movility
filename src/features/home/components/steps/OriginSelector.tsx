@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Button, useAppTheme, View, Text } from "@/core";
 import { useTripStore } from '../../store/useTripStore';
-import { GooglePlaceRow } from '../GooglePlaceRow';
 
 export function OriginSelector() {
     const { colors } = useAppTheme();
@@ -25,9 +24,9 @@ export function OriginSelector() {
                 {t("bottom_sheet.origin_selector.select_destination_button")}
             </Button>
             <View style={styles.addressContainer}>
-                <GooglePlaceRow title={'Aeropuerto Barcelona - El Prat T2 y todos se van de viaje a pasear'} subtitle={'Barcelona'} />
+                {/* <GooglePlaceRow title={'Aeropuerto Barcelona - El Prat T2 y todos se van de viaje a pasear'} subtitle={'Barcelona'} />
                 <GooglePlaceRow title={'Aeropuerto Barcelona - El Prat T1'} subtitle={'Barcelona'} />
-                <GooglePlaceRow title={'Aeropuerto Barcelona - El Prat T3'} subtitle={'Barcelona'} />
+                <GooglePlaceRow title={'Aeropuerto Barcelona - El Prat T3'} subtitle={'Barcelona'} /> */}
             </View>
         </View>
     );

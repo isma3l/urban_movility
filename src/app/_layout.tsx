@@ -12,6 +12,7 @@ import { APIProvider } from '@/core/api';
 import { loadSelectedTheme, configureGoogle } from '@/core';
 import '@/core/lib/i18n';
 import { useEffect } from 'react';
+import { useSyncLocationPermission } from '@/core/hooks/useSyncLocationPermission';
 
 loadSelectedTheme();
 
@@ -19,6 +20,8 @@ loadSelectedTheme();
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  useSyncLocationPermission();
+  
   useEffect(() => {
     configureGoogle();
   }, []);
