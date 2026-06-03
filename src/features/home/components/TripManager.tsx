@@ -8,6 +8,7 @@ import { useTripStore } from "../store/useTripStore";
 import { BottomSheetHeader } from './BottomSheetHeader';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { View, WINDOW_HEIGHT } from '@/core';
+import { useBackHandler } from '@/core/hooks/useBackHandler';
 
 const configState: StepsRegistry = {
     [Steps.ORIGIN]: {
@@ -23,12 +24,13 @@ const configState: StepsRegistry = {
 }
 
 export function TripManager() {
-    const bottomSheetRef = useRef<BottomSheet>(null);
-    const insets = useSafeAreaInsets();
-    const [shouldBeFull, setShouldBeFull] = useState(false);
     const currentStep = useTripStore.use.currentStep();
     const goBack = useTripStore.use.goBack();
+    const insets = useSafeAreaInsets();
+    const [shouldBeFull, setShouldBeFull] = useState(false);
+    const bottomSheetRef = useRef<BottomSheet>(null);
     const { component: CurrentStep, maxHeight, title, showBackButton } = configState[currentStep];
+    useBackHandler(goBack);
 
     useEffect(() => {
         if (maxHeight) {
